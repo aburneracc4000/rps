@@ -27,4 +27,40 @@
         return "scissors";
 
        }
-}
+    } 
+
+  // GET user input (rock, paper or scissors)
+  //   IF user inputs rock THEN 
+  //      DISPLAY you chose rock
+  //   ELSE IF user inputs paper THEN
+  //      DISPLAY you chose paper
+  //   ELSE IF user inputs scissors THEN 
+  //      DISPLAY you chose scissors
+  //   END IF
+  //   END ELSE IF 
+  //   END ELSE IF
+   function getUserInput() {
+
+    let guess = prompt("R, P or S?");
+
+    let choice = guess;
+
+    if (guess === "Rock") {
+
+        return("you have chosen Rock!");
+
+    }else if (guess === "Paper") {
+
+        return("you have chosen Paper!");
+
+    }else if (guess === "Scissors") {
+
+        return("you have chosen Scissors!");
+
+    }else{
+
+        return("thats not an answer LMAO!");
+
+    }
+   }
+  
