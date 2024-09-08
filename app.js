@@ -2,16 +2,7 @@
 
   let counter = 0;
   
-  // SET rps to 1 out of 100
-  //   IF rps is 1 to 33 THEN
-  //      DISPLAY Rock
-  //   ELSE IF rps is 34 to 66 THEN
-  //      DISPLAY Paper
-  //   ELSE IF rps is 67 to 100 THEN 
-  //   DISPLAY Scissors
-  //   END IF
-  //   END ELSE IF
-  //   END ELSE IF
+  
    function getComputerChoice() {
     let rps = Math.floor(Math.random() * 100) +1;
 
@@ -30,20 +21,10 @@
        }
       }
 
-  // GET user input (rock, paper or scissors)
-  // SET choice to user input and convert it to lower case
-  // IF user inputs rock THEN 
-  //    GET you chose rock
-  //      ELSE IF user inputs paper THEN
-  //        GET you chose paper
-  //          ELSE IF user inputs scissors THEN 
-  //            GET you chose scissors
-  //          END ELSE IF
-  //      END ELSE IF 
-  // END if
-   function getUserInput() {
+ 
+   function getUserInput(userInput) {
 
-    let guess = prompt("R, P or S?");
+    let guess = userInput;
 
     let choice = guess.toLowerCase();
 
@@ -66,110 +47,194 @@
     }
    }
 
-   //GET playRound value
-   //  REPEAT playRound function UNTIL
-   //    userScore or compScore is equal to 3
-   //  DISPLAY the winner of the game 
+
+  
+
+
+    
    function playGame() {
+   
+   }
 
-      let userScore = 0;
+   let userScore = 0;
 
-      let compScore = 0;
+   let compScore = 0;
 
-   // GET humanChoice & compChoice values
-   // DETERMINE the winner from humanChoice & compChoice
-   //   IF humanChoice wins THEN
-   //     DISPLAY winner message
-   //     INCREMENT userScore by 1
-   //       ELSE humanChoice loses THEN
-   //         DISPLAY loser message 
-   //         INCREMENT compScore by 1
-   //           ELSE the humanChoice value is not rock paper or scissors THEN
-   //             DISPLAY invalid choice, try again
-   //           END ELSE
-   //       END ELSE
-   //   END IF
    function playRound(humanChoice, compChoice) {
 
       if (humanChoice === "rock" && compChoice === "paper") { 
   
         ++compScore;
+
+        setScore();
      
-        console.log("they have chosen Paper, you lose!");
+        showLossMessage();
      
      }else if (humanChoice === "rock" && compChoice === "scissors") {
   
         ++userScore;
+
+        setScore();
   
-        console.log("they have chosen Scissors, you win!");
+        showWinMessage();
   
      }else if (humanChoice === "paper" && compChoice === "scissors") {
   
         ++compScore;
+
+        setScore();
   
-        console.log("they chose Scissors, you lose!");
+        showLossMessage();
   
      }else if (humanChoice === "paper" && compChoice === "rock") {
   
         ++userScore;
+
+        setScore();
   
-        console.log("they chose Rock, you win!");
+        showWinMessage();
   
      }else if (humanChoice === "scissors" && compChoice === "rock") {
   
         ++compScore;
+
+        setScore();
   
-        console.log("they chose Rock, you lose!");
+        showLossMessage();
   
      }else if (humanChoice === "scissors" && compChoice === "paper") {
   
         ++userScore;
+
+        setScore();
   
-        console.log("they chose Paper, you win!");
+        showWinMessage();
   
      }else if (humanChoice === compChoice) {
   
-        console.log("its a tie!");
-  
-     }else if (humanChoice === "invalid") {
-  
-        console.log("thats not an answer!");
+      showTieMessage(); 
   
      }
 
-     
-   
+     function showLossMessage() {
+      resultMessage.textContent = `They have chose ${compChoice},
+   you have lost this round!`;
+   container.insertBefore(resultMessage, rockButton);
    }
 
-   do {
-
-      playRound(getUserInput(), getComputerChoice());
-
-    } while (userScore < 3 && compScore < 3)
    
-     //const userSelection = getUserInput();
-  
-     //const compSelection = getComputerChoice();
 
-     //return(playRound(userSelection, compSelection));
+   function showWinMessage() {
+      const winMessage = `They have chose ${compChoice},
+   you have won this round!`;
+
+      resultMessage.textContent = `${winMessage}`;
+      container.insertBefore(resultMessage, rockButton);
+   }
+
+   function showTieMessage() {
+      const tieMessage = `They have also chose ${compChoice},
+      this round is a tie!`;
+
+      resultMessage.textContent = `${tieMessage}`;
+      container.insertBefore(resultMessage, rockButton);
+   }
+
+   function gameWin() {
+      const gameWinMessage = `They have chose ${compChoice},
+      you have reached 3 wins and have won the game!`;
+
+      for (let i = 0; i < buttons.length; i++) {
+         container.removeChild(buttons[i]);
+      };
+
+      resultMessage.textContent = `${gameWinMessage}`;
+      container.appendChild(resultMessage);
+   }
+   
+   function gameLose() {
+      const gameLoseMessage = `They have chose ${compChoice},
+      the opponent has reached 3 wins and has won the game!`;
+
+      for (let i = 0; i < buttons.length; i++) {
+         container.removeChild(buttons[i]);
+      };
+
+      resultMessage.textContent = `${gameLoseMessage}`;
+      container.appendChild(resultMessage);
+   }
 
    if (userScore >= 3) {
 
-      console.log("You have won!")
+      gameWin();
 
-      return
+     return;
 
    }else if (compScore >= 3) {
 
-      console.log("You have lost!")
+      gameLose();
 
-      return
+      return;
 
    }
- 
+   }
+
+   function setScore() {
+
+      scores.textContent = `Your score: ${userScore}. Opponent score: ${compScore}.`;
+      container.insertBefore(scores, resultMessage);
+   }
+
    
+
+   
+
+   
+   
+   const container = document.querySelector("#container");
+
+   const rules = document.createElement("p");
+   rules.textContent = "Rock, paper or scissors? First to three wins!";
+   container.appendChild(rules);
+
+   const rockButton = document.createElement("button");
+   rockButton.classList.add("rockButton");
+   rockButton.textContent = "Rock";
+   container.appendChild(rockButton);
+
+   const paperButton = document.createElement("button");
+   paperButton.classList.add("paperButton");
+   paperButton.textContent = "Paper";
+   container.appendChild(paperButton);
+
+   const scissorButton = document.createElement("button");
+   scissorButton.classList.add("scissorButton");
+   scissorButton.textContent = "Scissors";
+   container.appendChild(scissorButton);
+
+   const resultMessage = document.createElement("p");
+   resultMessage.textContent = `You havent chose anything yet.`;
+   container.insertBefore(resultMessage, rockButton);
+
+   const scores = document.createElement("p");
+   scores.textContent = `Your score: ${userScore}. Opponent score: ${compScore}.`;
+   container.insertBefore(scores, resultMessage);
+
+   const buttons = document.querySelectorAll("button");
+
+   for (let i = 0; i < buttons.length; i++) {
+      buttons[i].setAttribute("class", "highlight");
    }
 
+   buttons.forEach((button) => {
 
-   console.log(playGame());
+    button.addEventListener("click", () => {
+
+       playRound(getUserInput(button.textContent), getComputerChoice())
+    });
+});
+
+
+
+ 
 
